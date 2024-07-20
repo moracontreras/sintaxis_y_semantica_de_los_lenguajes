@@ -1,3 +1,3 @@
-# 24-002-05
+# GRUPO 5 - 24-002-05
 
-![GRUPO5](https://github.com/user-attachments/assets/2101c974-0071-4d9e-81b1-9a344a51455a)
+![Grupo5 docx_page-0001](https://github.com/user-attachments/assets/3f0ec227-9020-4268-9f4d-61db7264c67b)
