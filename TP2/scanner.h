@@ -24,4 +24,4 @@ typedef enum {
 extern char lexema[100];
 int scanner();
 
-#endif
+#endif // SCANNER_H

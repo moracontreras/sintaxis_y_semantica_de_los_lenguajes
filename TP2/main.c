@@ -1,7 +1,6 @@
 #include "scanner.h"
 
-// Función para eliminar '\n' o cualquier otro carácter no deseado al final del lexema
-void limpiar_lexema(char* lexema) {
+void limpiar_lexema(char* lexema) {   // se elimina el /n del lexema
     int len = strlen(lexema);
     if (lexema[len - 1] == '\n') {
         lexema[len - 1] = '\0';
@@ -48,6 +47,9 @@ int main() {
                 break;
             case ERROR_ASIGNACION:
                 printf("Error en asignación por '%s'\n", lexema);
+                break;
+            default:
+                printf("Token no reconocido o error inesperado.\n");
                 break;
         }
     }

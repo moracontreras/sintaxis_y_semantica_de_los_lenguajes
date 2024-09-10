@@ -3,7 +3,11 @@
 char lexema[100];
 
 enum estados { 
-    INICIO, EN_IDENTIFICADOR, EN_CONSTANTE, EN_ASIGNACION, EN_ERROR 
+    INICIO,
+    EN_IDENTIFICADOR,
+    EN_CONSTANTE,
+    EN_ASIGNACION,
+    EN_ERROR
 };
 
 int tabla_transicion[5][5] = {
@@ -14,9 +18,10 @@ int tabla_transicion[5][5] = {
     { EN_ERROR, EN_ERROR, EN_ERROR, EN_ERROR, FDT }
 };
 
+
 int scanner() {
     int estado = INICIO;
-    char c;
+    int c;
     int i = 0;
 
     // Limpiar el lexema antes de comenzar
@@ -37,7 +42,7 @@ int scanner() {
         // Ignorar ';', ',', '(', ')' si están dentro de un identificador
         if (c == ';' || c == ',' || c == '(' || c == ')') {
             if (estado == EN_IDENTIFICADOR || estado == EN_CONSTANTE) {
-                ungetc(c, stdin);  // Devolver el carácter si estamos en un identificador
+                ungetc(c, stdin);
                 break;
             }
         }
@@ -57,7 +62,6 @@ int scanner() {
                 break;
             }
         }
-        // Caso del ':'
         else if (c == ':') {
             estado = tabla_transicion[estado][2];
             c = getchar();
@@ -69,11 +73,9 @@ int scanner() {
                 return ERROR_ASIGNACION;
             }
         }
-        // Case del '=' 
         else if (c == '=') {
             return ERROR_ASIGNACION;
         }
-        // Case del ';'
         else if (c == ';') {
             return PUNTO_Y_COMA;
         } else if (c == ',') {
