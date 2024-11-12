@@ -18,73 +18,48 @@ extern int yylexerrs;
 %token MAS MENOS MULTIPLICACION DIVISION MODULO
 %token ASIGNACION PAREN_IZQ PAREN_DER COMA PUNTO_Y_COMA FDT
 
-%type <str> programa expresion termino primaria 
+%type <str> prog exp 
 
 %left MAS MENOS
 %left MULTIPLICACION DIVISION MODULO
 %precedence NEG
 
 %%
-todo	: programa {if (yynerrs || yylexerrs) YYABORT;}
-programa: PROGRAMA ID {printf("programa: %s\n", $2);} lista_sentencias FIN 
+todo	: prog {if (yynerrs || yylexerrs) YYABORT;}
+prog: PROGRAMA ID {printf("programa: %s\n", $2);} l_sent FIN 
 ;
 
-lista_sentencias: sentencia
-    | lista_sentencias sentencia
+l_sent: sent
+    | l_sent sent
 ;
 
-sentencia:
-    declaracion
-    | asignacion
-    | lectura
-    | escritura
+sent:
+    ENTERO ID PUNTO_Y_COMA {printf("Sentencia declaracion: %s\n", $2);}
+    | ID ASIGNACION exp PUNTO_Y_COMA {printf("Sentencia asignacion\n");}
+    | LEER PAREN_IZQ l_id PAREN_DER PUNTO_Y_COMA {printf("Sentencia leer\n");}
+    | ESCRIBIR PAREN_IZQ l_exp PAREN_DER PUNTO_Y_COMA {printf("Sentencia escribir\n");}
     | error PUNTO_Y_COMA
 ;
 
-declaracion:
-    ENTERO ID PUNTO_Y_COMA {printf("Sentencia declaracion: %s\n", $2);}
-;
-
-asignacion:
-    ID ASIGNACION expresion PUNTO_Y_COMA {printf("Sentencia asignacion\n");}
-;
-
-lectura:
-    LEER PAREN_IZQ lista_identificadores PAREN_DER PUNTO_Y_COMA {printf("Sentencia leer\n");}
-;
-
-escritura:
-    ESCRIBIR PAREN_IZQ lista_expresiones PAREN_DER PUNTO_Y_COMA {printf("Sentencia escribir\n");}
-;
-
-lista_identificadores:
+l_id:
     ID
-    | lista_identificadores COMA ID
+    | l_id COMA ID
 ;
 
-lista_expresiones:
-    expresion
-    | lista_expresiones COMA expresion
+l_exp:
+    exp
+    | l_exp COMA exp
 ;
 
-expresion:
-    expresion MAS termino {printf("suma\n");}
-    | expresion MENOS termino {printf("resta\n");}
-    | termino
-;
-
-termino:
-    termino MULTIPLICACION primaria {printf("multiplicacion\n");}
-    | termino DIVISION primaria {printf("division\n");}
-    | termino MODULO primaria {printf("modulo\n");}
-    | primaria
-;
-
-primaria:
-    CTE
+exp: exp MAS exp { printf("suma\n"); }
+    | exp MENOS exp { printf("resta\n"); }
+    | exp MULTIPLICACION exp { printf("multiplicacion\n"); }
+    | exp DIVISION exp { printf("division\n"); }
+    | exp MODULO exp { printf("modulo\n"); }
+    | MENOS exp %prec NEG { printf("inversion\n"); }
+    | PAREN_IZQ {printf("abre parentesis\n");}  exp PAREN_DER {printf("cierra parentesis\n");}
+    | CTE
     | ID
-    | MENOS primaria %prec NEG {printf("inversion\n");}
-    | PAREN_IZQ {printf("abre parentesis\n");} expresion PAREN_DER {printf("cierra parentesis\n");}
 ;
 
 %%
