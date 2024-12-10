@@ -5,6 +5,6 @@
 #include <assert.h>
 #include "conversion.h"
 
-void armar_tabla(float inicio, float fin, float incremento);
+void armar_tabla(double inicio, double fin, double incremento);
 
 #endif //TABLA_H
