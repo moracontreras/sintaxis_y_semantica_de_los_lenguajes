@@ -39,7 +39,7 @@ Comentario      "//".*
 {Comentario}                    ;
 {Espacio}+                      ;
 
-{Digito}+{LetraDigito}+                                                                               {yylexerrs++; printf("linea #%d: Error lexico: constante invalida: %s\n",yylineno, yytext);}
+{Digito}+{LetraDigito}+                                                                               {yylexerrs++; printf("linea #%d: Error lexico: constante invalida: %s\n", yylineno, yytext);}
 {Letra}{LetraDigito}*[^ \t\na-zA-Z0-9;,\%\(\)+\-\*/]+({LetraDigito}|[^ \t\na-zA-Z0-9;,\%\(\)+\-\*/])* {yylexerrs++; printf("linea #%d: Error lexico: identificador invalido: %s\n", yylineno, yytext);}
 [^ \t\na-zA-Z0-9;,\%\(\)+\-\*\:\=/]+                                                                  {yylexerrs++; printf("linea #%d: Error lexico: cadena desconocida: %s\n", yylineno, yytext);}
 [^ \t\na-zA-Z0-9;,\%\(\)+\-\*/]+                                                                      {yylexerrs++; printf("linea #%d: Error lexico: asignacion mal formada: %s\n", yylineno, yytext);}
