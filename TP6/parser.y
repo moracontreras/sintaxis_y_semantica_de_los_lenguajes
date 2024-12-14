@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 %}
 %code provides {
 void yyerror(const char *msg);
@@ -111,24 +112,18 @@ exp : exp MAS exp {
     | ID { 
           if (!verificar($1)) { 
               yysemerrs++; 
-              printf("linea #%d: Error semantico: identificador %s NO declarado\n", yylineno, $1); 
-          } 
-          $$ = $1; 
+              printf("linea #%d: Error semantico: identificador %s NO declarado\n", yylineno, $1);
+          } else $$ = $1 ;
       }
 ;
 
 l_exp : exp {
-        if(verificar($1)){
-                  escribir_exp($1);  // Escribimos la expresión
-            } 
-          }
-      | l_exp COMA exp { 
-        if(verificar($3)){
-                  escribir_exp($3);  // Escribimos la siguiente expresión
-              }
-      }
+            escribir_exp($1);  // Escribimos la expresión solo si es válida
+        }
+      | l_exp COMA exp {
+                escribir_exp($3);  // Escribimos la expresión solo si es válida
+        }
 ;
-
 %%
 
 int yylexerrs = 0;

@@ -36,3 +36,5 @@ bool verificar(char *id) {
     }
     return true;
 }
+
+
